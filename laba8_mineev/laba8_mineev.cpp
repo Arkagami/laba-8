@@ -120,6 +120,7 @@ void outByUnChip() {
 //99999999999999999999999999999999999999999999999999999999999999999999999999999
 void outText() {
 	teks = 0;
+	printf("\n");
 	while (tekst[teks]) printf("%c", tekst[teks++]);
 	printf("\n");
 }
@@ -130,14 +131,10 @@ void outText() {
 void Zamen(int mod, char g, char h) {
 	if (mod == 0) {
 		printf("\n");
-		for (int i = 0; i < 26; i++) printf("%2d ", i);
-		printf("\n");
 		for (int i = 0; i < 26; i++) printf(" %c ", cH[i]);
 		printf("\n");
 		for (int i = 0; i < 26; i++) printf(" %c ", CH[i]);
 		printf("\n\n");
-		for (int i = 26; i < 33; i++) printf("%3d", i);
-		printf("\n");
 		for (int i = 26; i < 33; i++) printf(" %c ", cH[i]);
 		printf("\n");
 		for (int i = 26; i < 33; i++) printf(" %c ", CH[i]);
@@ -201,8 +198,6 @@ void saveText() {
 //zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 void backChChar() {
 	char cha = 'n';
-	printf("\n");
-	for (int i = 0; i < 26; i++) printf("%2d ", i);
 	printf("\n");
 	for (int i = 0; i < 26; i++) printf(" %c ", cH[i]);
 	printf("\n");
