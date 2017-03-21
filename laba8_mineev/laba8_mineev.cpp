@@ -6,7 +6,7 @@
 #include <windows.h>
 
 
-char ch[34] = "ÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞ‗", cH[34] = "ÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞ‗", autoList[34] = "מואטםעסנגכךלהןףÿûüדחבקיץזר‏צש‎פת¸", chastot[34] = "ÎÅÀÈÒÍÑÐÂË", CH[34] = "אבגדהו¸זחטיךכלםמןנסעףפץצקרשתûü‎‏ÿ", zamen[34], words[409600][100], tekst[409600], backCh1[1000], backCh2[1000];
+char ch[34] = "ÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞ‗", cH[34] = "ÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞ‗", autoList[34] = "מואטםעסנגכךלהןףÿûüדחבקיץזר‏צש‎פת¸", chastot[34] = "ÎÅÀÈÒÍÑÐÂËÊÌÄÏÓ‗ÛÜÃÇÁ×ÉÕÆØÞÖÙÝÔÚ¨", CH[34] = "אבגדהו¸זחטיךכלםמןנסעףפץצקרשתûü‎‏ÿ", zamen[34], words[409600][100], tekst[409600], backCh1[1000], backCh2[1000];
 int stat[33], all = 0, word[409600], unChipWord[409600], wkol = 0, teks = 0, bch = 0, dot = 1;
 
 void sortnah() {
@@ -42,6 +42,9 @@ int anuka(int p) {
 
 //00000000000000000000000000000000000000000000000000000000000000000000000000000
 void input() {
+	wkol = 0; teks = 0; bch = 0; dot = 1;
+	all = 0;
+	ch[34] = char("ÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞ‗");
 	for (int i = 0; i < 33; i++) stat[i] = 0;
 	char filename[100];
 	printf("Input file name:");
@@ -139,7 +142,7 @@ void Zamen(int mod, char g, char h) {
 		printf("\n");
 		for (int i = 26; i < 33; i++) printf(" %c ", CH[i]);
 		printf("\n");
-		printf("\nInput two symbols:"); g = 'n'; h = 'n'; int A = 0; scanf("%d", &A); g = cH[A]; scanf("%d", &A); h = CH[A];  printf("  %c^%c\n", g, h);
+		printf("\nInput two symbols:"); g = 'n'; h = 'n';scanf("%c%c", &g, &h);  printf("  %c^%c\n", g, h);
 	}
 	backCh1[bch++] = g;
 	backCh2[bch - 1] = h;
@@ -208,7 +211,7 @@ void backChChar() {
 	for (int i = 26; i < 33; i++) printf(" %c ", cH[i]);
 	printf("\n");
 	printf("Âגוהטעו סטלגמכ, ךמעמנûי םףזםמ גונםףעü:");
-	int AA = 0; scanf("%d", &AA); cha = cH[AA];
+	scanf("%c", &cha);
 	for (int i = 0; i < 33; i++) if (backCh1[i] == cha) Zamena(backCh2[i], backCh1[i]);
 }
 //zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
@@ -223,9 +226,9 @@ void autoChipher() {
 
 int main()
 {
-	setlocale(LC_ALL, "Russian");
-	//SetConsoleCP(1251);
-	//SetConsoleOutputCP(1251);
+	//setlocale(LC_ALL, "Russian");
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
 	input();
 	//system("chcp 1251");
 	sortnah();
