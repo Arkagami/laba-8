@@ -42,7 +42,7 @@ int anuka(int p) {
 
 //00000000000000000000000000000000000000000000000000000000000000000000000000000
 void input() {
-	wkol = 0; teks = 0; bch = 0; dot = 1;
+	wkol = 0; teks = 0; bch = 0; dot = 100;
 	all = 0;
 	ch[34] = char("јЅ¬√ƒ≈®∆«»… ЋћЌќѕ–—“”‘’÷„ЎўЏџ№Ёёя");
 	for (int i = 0; i < 33; i++) stat[i] = 0;
@@ -59,11 +59,10 @@ void input() {
 		if ((c == '.') || (c == ';') || (c == '*') || (c == '!') || (c == '?') || ((C == ':') && (c == '\n'))) { dot = 100; }
 		else
 			if (c == ' ') { dot++; }
-			else dot = 0;
 			tekst[teks++] = c;
 			for (int i = 0; i < 33; i++) {
 				if (c == ch[i]) {
-					if (dot == 1) { for (int i = 0; i < 33; i++) if (cH[i] == c) { dot = 0; words[wkol][strlen(words[wkol])] = CH[i]; tekst[teks - 1] = CH[i];  goto suda; } }
+					if (dot > 100) { for (int i = 0; i < 33; i++) if (cH[i] == c) { dot = 0; words[wkol][strlen(words[wkol])] = CH[i]; tekst[teks - 1] = CH[i];  goto suda; } }
 					else { suda: words[wkol][strlen(words[wkol])] = c; }
 					words[wkol][strlen(words[wkol])] = '\0';  stat[i]++; all++; goto repeat;
 				}
@@ -131,14 +130,6 @@ void outText() {
 void Zamen(int mod, char g, char h) {
 	if (mod == 0) {
 		printf("\n");
-		for (int i = 0; i < 26; i++) printf(" %c ", cH[i]);
-		printf("\n");
-		for (int i = 0; i < 26; i++) printf(" %c ", CH[i]);
-		printf("\n\n");
-		for (int i = 26; i < 33; i++) printf(" %c ", cH[i]);
-		printf("\n");
-		for (int i = 26; i < 33; i++) printf(" %c ", CH[i]);
-		printf("\n");
 		printf("\nInput two symbols:"); g = 'n'; h = 'n';scanf(" %c%c", &g, &h);  printf("  %c^%c\n", g, h);
 	}
 	backCh1[bch++] = g;
@@ -187,10 +178,7 @@ void saveText() {
 	int kolvo = 0;
 	while (tekst[kolvo]) { fputc(tekst[kolvo++], ff); }
 	fputc('\n', ff);
-	for (int i = 0; i < 33; i++) { fputc(cH[i], ff); fputc('|', ff); }
-	fputc('\n', ff);
-	for (int i = 0; i < 33; i++) { fputc(zamen[i], ff); fputc('|', ff); }
-	fputc('\n', ff);
+	for (int i = 0; i < 33; i++) { fputc(cH[i], ff); fputs(" - ", ff); fputc(zamen[i], ff); fputc('\n', ff); }
 	fclose(ff);
 }
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -199,14 +187,8 @@ void saveText() {
 void backChChar() {
 	char cha = 'n';
 	printf("\n");
-	for (int i = 0; i < 26; i++) printf(" %c ", cH[i]);
-	printf("\n");
-	for (int i = 26; i < 33; i++) printf("%3d", i);
-	printf("\n");
-	for (int i = 26; i < 33; i++) printf(" %c ", cH[i]);
-	printf("\n");
 	printf("¬ведите символ, который нужно вернуть:");
-	scanf("%c", &cha);
+	scanf(" %c", &cha);
 	for (int i = 0; i < 33; i++) if (backCh1[i] == cha) Zamena(backCh2[i], backCh1[i]);
 }
 //zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
