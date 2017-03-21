@@ -142,7 +142,7 @@ void Zamen(int mod, char g, char h) {
 		printf("\n");
 		for (int i = 26; i < 33; i++) printf(" %c ", CH[i]);
 		printf("\n");
-		printf("\nInput two symbols:"); g = 'n'; h = 'n';scanf("%c%c", &g, &h);  printf("  %c^%c\n", g, h);
+		printf("\nInput two symbols:"); g = 'n'; h = 'n';scanf(" %c%c", &g, &h);  printf("  %c^%c\n", g, h);
 	}
 	backCh1[bch++] = g;
 	backCh2[bch - 1] = h;
@@ -229,6 +229,14 @@ int main()
 	//setlocale(LC_ALL, "Russian");
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
+	// רנטפע
+	CONSOLE_FONT_INFOEX font;
+	font.cbSize = sizeof font;
+	font.nFont = 1;
+	font.dwFontSize = { 9, 18 };
+	font.FontFamily = 0 | FF_DONTCARE & ~TMPF_FIXED_PITCH;
+	font.FontWeight = FW_NORMAL;
+	wcscpy_s(font.FaceName, LF_FACESIZE, L"Lucida Console");
 	input();
 	//system("chcp 1251");
 	sortnah();
