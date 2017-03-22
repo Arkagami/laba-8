@@ -7,7 +7,7 @@
 
 
 char ch[34] = "ÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß", cH[34] = "ÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß", autoList[34] = "îåàèíòñğâëêìäïóÿûüãçá÷éõæøşöùıôú¸", chastot[34] = "ÎÅÀÈÒÍÑĞÂËÊÌÄÏÓßÛÜÃÇÁ×ÉÕÆØŞÖÙİÔÚ¨", CH[34] = "àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿ", zamen[34], words[409600][100], tekst[409600], backCh1[1000], backCh2[1000];
-int stat[33], all = 0, word[409600], unChipWord[409600], wkol = 0, teks = 0, bch = 0, dot = 1;
+int stat[33], steps[1000], step=0, all = 0, word[409600], unChipWord[409600], wkol = 0, teks = 0, bch = 0, dot = 1;
 
 void sortnah() {
 	int t, l;
@@ -42,7 +42,7 @@ int anuka(int p) {
 
 //00000000000000000000000000000000000000000000000000000000000000000000000000000
 void input() {
-	wkol = 0; teks = 0; bch = 0; dot = 100;
+	wkol = 0; teks = 0; bch = 0; dot = 10000; step = 0;
 	all = 0;
 	ch[34] = char("ÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß");
 	for (int i = 0; i < 33; i++) stat[i] = 0;
@@ -50,25 +50,24 @@ void input() {
 	printf("Input file name:");
 	scanf("%s", &filename);
 	FILE *f = fopen(filename, "r");
-	char c = 'h';
+	char c = 'h'; int ki = 0;
 	while (!feof(f)) {
 	repeat:
 		char C = c;
 		c = fgetc(f);
 		if (feof(f)) { break; }
-		if ((c == '.') || (c == ';') || (c == '*') || (c == '!') || (c == '?') || ((C == ':') && (c == '\n'))) { dot = 100; }
-		else
-			if (c == ' ') { dot++; }
+		if ((c == '.') || (c == ';') || (c == '*') || (c == '!') || (c == '?') || ((C == ':') && (c == '\n'))) { dot = 999; }
+		else { dot++; }
 			tekst[teks++] = c;
 			for (int i = 0; i < 33; i++) {
 				if (c == ch[i]) {
-					if (dot > 100) { for (int i = 0; i < 33; i++) if (cH[i] == c) { dot = 0; words[wkol][strlen(words[wkol])] = CH[i]; tekst[teks - 1] = CH[i];  goto suda; } }
-					else { suda: words[wkol][strlen(words[wkol])] = c; }
+					if (dot > 1000) { for (int i = 0; i < 33; i++) if (cH[i] == c) { dot = 0; words[wkol][strlen(words[wkol])] = CH[i]; tekst[teks - 1] = CH[i]; ki = 1; } }
+					else {  words[wkol][strlen(words[wkol])] = c; }
 					words[wkol][strlen(words[wkol])] = '\0';  stat[i]++; all++; goto repeat;
 				}
 			}
 			word[wkol] = strlen(words[wkol]);
-			unChipWord[wkol] = word[wkol];
+			unChipWord[wkol] = word[wkol] - ki; ki = 0;
 			wkol++;
 	}
 	tekst[teks] = '\0';
@@ -105,11 +104,11 @@ void outByUnChip() {
 	int r = 1;
 	while (r < 100) {
 		printf("\n------------------------------------------------------------------------\n");
-	again:
+	again1:
 		if (r == 100) break;
 		int t = 0;
 		for (int e = 0; e < wkol - 1; e++) { if (unChipWord[e] == r) { if (anuka(e)) { printf("%s ", words[e]); t = 1; } } }
-		if (t == 0) { r++; goto again; }
+		if (t == 0) { r++; goto again1; }
 		r++;
 	}
 }
@@ -137,11 +136,12 @@ void Zamen(int mod, char g, char h) {
 	teks = 0;
 	while (tekst[teks]) if (tekst[teks++] == g) tekst[teks - 1] = h;
 
-	for (int i = 0; i < 33; i++) if (cH[i] == g) { for (int iii = 0; iii < 33; iii++) if (CH[iii] == h) zamen[i] = cH[iii]; }
+	for (int i = 0; i < 33; i++) if (cH[i] == g) { for (int iii = 0; iii < 33; iii++) if (CH[iii] == h) { zamen[i] = cH[iii]; steps[step++] = i; } }
 
 	int kk = 0, ll = 0;
 	for (kk = 0; kk<wkol; kk++) {
-		for (ll = 0; ll < word[kk]; ll++) { if (words[kk][ll] == g) { words[kk][ll] = h; unChipWord[kk]--; } }
+		for (ll = 0; ll < word[kk]; ll++) { if (words[kk][ll] == g) { words[kk][ll] = h; for (int i = 0; i < 33; i++){ if (cH[i] == h) unChipWord[kk]++; if (CH[i] == h) unChipWord[kk]--; } }
+	}
 	}
 	printf("Changing completed.\n");
 }
@@ -179,6 +179,8 @@ void saveText() {
 	while (tekst[kolvo]) { fputc(tekst[kolvo++], ff); }
 	fputc('\n', ff);
 	for (int i = 0; i < 33; i++) { fputc(cH[i], ff); fputs(" - ", ff); fputc(zamen[i], ff); fputc('\n', ff); }
+	fputs("\n--------------------------------------------------------------\n", ff);
+	for (int i = 0; i < 33; i++) { fputc(cH[steps[i]], ff); fputs("->", ff); fputc(zamen[steps[i]], ff); fputc('\n', ff); }
 	fclose(ff);
 }
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -237,4 +239,3 @@ int main()
 
 	return 0;
 }
-
